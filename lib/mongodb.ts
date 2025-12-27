@@ -8,14 +8,16 @@ import mongoose from "mongoose";
  * In production, a single connection is reused across requests.
  */
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI_RAW = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
+if (!MONGODB_URI_RAW) {
   throw new Error(
     "MONGODB_URI is not defined. Please add it to your .env.local file.\n" +
       "Example: MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<database>"
   );
 }
+
+const MONGODB_URI: string = MONGODB_URI_RAW;
 
 /**
  * Global type declaration for caching mongoose connection

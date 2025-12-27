@@ -195,7 +195,8 @@ const matchSchema = new Schema<IMatchDocument>(
 );
 
 // Validation: homeTeam !== awayTeam
-matchSchema.pre("validate", function (next) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(matchSchema as any).pre("validate", function (this: IMatchDocument, next: () => void) {
   if (this.homeTeam && this.awayTeam && this.homeTeam.equals(this.awayTeam)) {
     this.invalidate("awayTeam", "Home team and away team cannot be the same");
   }
@@ -203,7 +204,8 @@ matchSchema.pre("validate", function (next) {
 });
 
 // Validation: FINISHED status requires scores
-matchSchema.pre("validate", function (next) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(matchSchema as any).pre("validate", function (this: IMatchDocument, next: () => void) {
   if (this.status === "FINISHED") {
     if (this.homeScore === null || this.awayScore === null) {
       this.invalidate("status", "Cannot set status to FINISHED without scores");

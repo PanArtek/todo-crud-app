@@ -17,7 +17,7 @@ interface ApiErrorResponse {
   };
 }
 
-type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
 
 /**
  * Error codes used across the API

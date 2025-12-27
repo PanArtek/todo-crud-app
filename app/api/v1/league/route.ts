@@ -1,4 +1,6 @@
-import { notImplementedResponse } from "@/lib/api-response";
+import { connectToDatabase } from "@/lib/mongodb";
+import { ApiErrors, successResponse } from "@/lib/api-response";
+import League from "@/models/League";
 
 /**
  * GET /api/v1/league
@@ -7,8 +9,22 @@ import { notImplementedResponse } from "@/lib/api-response";
  * Cache: revalidateTag('league')
  */
 export async function GET() {
-  // TODO: Implement league fetch
-  // - Fetch Ekstraklasa league document
-  // - Return league metadata
-  return notImplementedResponse();
+  try {
+    await connectToDatabase();
+
+    const league = await League.findOne({ country: "PL" })
+      .select("name country logo currentSeason currentRound totalRounds teamsCount")
+      .lean();
+
+    if (!league) {
+      return ApiErrors.notFound("Liga nie zostala znaleziona");
+    }
+
+    return successResponse(league);
+  } catch (error) {
+    console.error("[League API] Error:", error);
+    return ApiErrors.internal("Wystapil blad podczas pobierania danych ligi");
+  }
 }
+
+export const dynamic = "force-dynamic";

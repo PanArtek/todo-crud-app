@@ -1,26 +1,153 @@
 @import "tailwindcss";
 
+/* SofaScore-inspired Dark Theme */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background colors */
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-card: #1f1f3a;
+  --bg-hover: #252550;
+
+  /* Accent colors */
+  --accent-primary: #e94560;
+  --accent-secondary: #00d4ff;
+
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b0;
+  --text-muted: #6b6b80;
+
+  /* Status colors */
+  --status-win: #22c55e;
+  --status-draw: #6b7280;
+  --status-loss: #ef4444;
+  --status-live: #ef4444;
+
+  /* Position badges */
+  --position-promotion: #22c55e;
+  --position-relegation: #ef4444;
+
+  /* Borders */
+  --border-color: #2a2a4a;
+
+  /* Fonts */
+  --font-display: var(--font-outfit);
+  --font-body: var(--font-dm-sans);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styles */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body), system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+}
+
+/* Table hover effects */
+.table-row-hover {
+  transition: background-color 150ms ease;
+}
+
+.table-row-hover:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Pulse animation for LIVE status */
+@keyframes pulse-live {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-live {
+  animation: pulse-live 1.5s ease-in-out infinite;
+}
+
+/* Form dot (last 5 matches) */
+.form-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.form-dot-win {
+  background-color: var(--status-win);
+}
+
+.form-dot-draw {
+  background-color: var(--status-draw);
+}
+
+.form-dot-loss {
+  background-color: var(--status-loss);
+}
+
+/* Position badge colors */
+.position-promotion {
+  background-color: var(--position-promotion);
+}
+
+.position-relegation {
+  background-color: var(--position-relegation);
+}
+
+/* Card styles */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
