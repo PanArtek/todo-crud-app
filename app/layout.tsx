@@ -1,7 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit, DM_Sans } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#1a1a2e",
+};
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -17,12 +24,62 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Ekstraklasa Tracker",
+    default: "Ekstraklasa Tracker - Tabela, Wyniki, Terminarz",
     template: "%s | Ekstraklasa Tracker",
   },
   description:
-    "Tabela ligowa, terminarz i wyniki polskiej Ekstraklasy. Inspirowane SofaScore.",
-  keywords: ["Ekstraklasa", "piłka nożna", "tabela", "wyniki", "terminarz"],
+    "Śledź wyniki, tabelę i terminarz polskiej Ekstraklasy. Aktualne statystyki, klasyfikacja i nadchodzące mecze w jednym miejscu.",
+  keywords: [
+    "Ekstraklasa",
+    "piłka nożna",
+    "tabela",
+    "wyniki",
+    "terminarz",
+    "polska liga",
+    "mecze",
+    "statystyki",
+  ],
+  authors: [{ name: "Ekstraklasa Tracker" }],
+  creator: "Ekstraklasa Tracker",
+  publisher: "Ekstraklasa Tracker",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(
+    process.env.NEXTAUTH_URL || "http://localhost:3000"
+  ),
+  openGraph: {
+    title: "Ekstraklasa Tracker - Tabela, Wyniki, Terminarz",
+    description:
+      "Śledź wyniki, tabelę i terminarz polskiej Ekstraklasy. Aktualne statystyki, klasyfikacja i nadchodzące mecze.",
+    url: "/",
+    siteName: "Ekstraklasa Tracker",
+    locale: "pl_PL",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ekstraklasa Tracker",
+    description: "Śledź wyniki, tabelę i terminarz polskiej Ekstraklasy.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 function Header() {
