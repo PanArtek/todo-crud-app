@@ -44,12 +44,13 @@
       "Bash(ls:*)",
       "Bash(mkdir:*)",
       "Bash(touch:*)",
+      "Bash(rm -rf .next:*)",
+      "Bash(Remove-Item:*)",
       "Read",
       "Write",
       "Edit"
     ],
     "deny": [
-      "Bash(rm -rf:*)",
       "Bash(sudo:*)",
       "Read(.env*)",
       "Write(.env*)",

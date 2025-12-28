@@ -195,23 +195,19 @@ const matchSchema = new Schema<IMatchDocument>(
 );
 
 // Validation: homeTeam !== awayTeam
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(matchSchema as any).pre("validate", function (this: IMatchDocument, next: () => void) {
+matchSchema.pre("validate", function (this: IMatchDocument) {
   if (this.homeTeam && this.awayTeam && this.homeTeam.equals(this.awayTeam)) {
     this.invalidate("awayTeam", "Home team and away team cannot be the same");
   }
-  next();
 });
 
 // Validation: FINISHED status requires scores
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(matchSchema as any).pre("validate", function (this: IMatchDocument, next: () => void) {
+matchSchema.pre("validate", function (this: IMatchDocument) {
   if (this.status === "FINISHED") {
     if (this.homeScore === null || this.awayScore === null) {
       this.invalidate("status", "Cannot set status to FINISHED without scores");
     }
   }
-  next();
 });
 
 // Indexes (as specified in PRD - critical for standings aggregation!)
