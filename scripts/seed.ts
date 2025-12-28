@@ -12,7 +12,14 @@
  */
 
 import { config } from "dotenv";
-config({ path: ".env.local" });
+import { existsSync } from "fs";
+
+// Load .env.development.local first (Docker), fallback to .env.local (Atlas)
+const envPath = existsSync(".env.development.local")
+  ? ".env.development.local"
+  : ".env.local";
+config({ path: envPath });
+console.log(`📁 Using env file: ${envPath}`);
 
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";

@@ -29,7 +29,32 @@ pnpm dev          # localhost:3000
 pnpm lint         # ESLint
 pnpm type-check   # TypeScript
 pnpm build        # Production build
+pnpm seed         # Seed bazy danych
 ```
+
+## Środowisko deweloperskie
+
+### Baza danych
+Development używa lokalnego MongoDB w Docker (nie Atlas!).
+
+### Komendy Docker
+```bash
+# Uruchom MongoDB (jednorazowo po instalacji Docker)
+docker run -d -p 27017:27017 --name mongo mongo:7
+
+# Start MongoDB (po restarcie komputera)
+docker start mongo
+
+# Sprawdź status
+docker ps | grep mongo
+
+# Zatrzymaj MongoDB
+docker stop mongo
+```
+
+### Zmienne środowiskowe
+- `.env.local` → produkcja (Atlas)
+- `.env.development.local` → development (lokalne Docker)
 
 ## Post-Task Checklist
 
