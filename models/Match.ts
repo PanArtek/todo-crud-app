@@ -38,6 +38,20 @@ export interface ILiveData {
 }
 
 /**
+ * Odds entry interface (for betting system)
+ */
+export interface IOddsEntry {
+  _id?: Types.ObjectId;
+  version: number;
+  homeOdds: number;
+  drawOdds: number;
+  awayOdds: number;
+  margin?: number; // percentage margin
+  createdAt: Date;
+  updatedBy?: Types.ObjectId;
+}
+
+/**
  * Match document interface
  * This is the SINGLE SOURCE OF TRUTH for match results
  */
@@ -54,6 +68,8 @@ export interface IMatch {
   stadium?: string;
   status: MatchStatus;
   liveData?: ILiveData;
+  odds?: IOddsEntry[];
+  currentOddsVersion: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -115,6 +131,49 @@ const liveDataSchema = new Schema<ILiveData>(
     },
   },
   { _id: false }
+);
+
+/**
+ * Odds Entry Schema (subdocument for betting)
+ */
+const oddsEntrySchema = new Schema<IOddsEntry>(
+  {
+    version: {
+      type: Number,
+      required: [true, "Odds version is required"],
+      min: 0,
+    },
+    homeOdds: {
+      type: Number,
+      required: [true, "Home odds are required"],
+      min: [1.01, "Odds must be at least 1.01"],
+    },
+    drawOdds: {
+      type: Number,
+      required: [true, "Draw odds are required"],
+      min: [1.01, "Odds must be at least 1.01"],
+    },
+    awayOdds: {
+      type: Number,
+      required: [true, "Away odds are required"],
+      min: [1.01, "Odds must be at least 1.01"],
+    },
+    margin: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: 0,
+    },
+    createdAt: {
+      type: Date,
+      default: () => new Date(),
+    },
+    updatedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
+  { _id: true }
 );
 
 /**
@@ -186,6 +245,15 @@ const matchSchema = new Schema<IMatchDocument>(
     },
     liveData: {
       type: liveDataSchema,
+    },
+    odds: {
+      type: [oddsEntrySchema],
+      default: [],
+    },
+    currentOddsVersion: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
   },
   {
