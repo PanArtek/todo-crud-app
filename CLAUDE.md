@@ -34,6 +34,26 @@ pnpm seed         # Seed bazy danych
 
 ## Środowisko deweloperskie
 
+### Lokalizacja projektu (WAŻNE!)
+Projekt MUSI być w natywnym WSL filesystem dla wydajności:
+
+```
+/home/artur/projects/ekstraklasa-tracker-wsl
+```
+
+**NIE używaj /mnt/c/** - powoduje ~40x wolniejszy dev server!
+
+| Lokalizacja | Server ready | Warm request |
+|-------------|--------------|--------------|
+| /mnt/c/ (Windows) | ~73s | ~6s |
+| /home/ (WSL) | **2s** | **~350ms** |
+
+Dostęp z VS Code:
+```bash
+code ~/projects/ekstraklasa-tracker-wsl
+# lub: \\wsl$\Ubuntu\home\artur\projects\ekstraklasa-tracker-wsl
+```
+
 ### Baza danych
 Development używa lokalnego MongoDB w Docker (nie Atlas!).
 
